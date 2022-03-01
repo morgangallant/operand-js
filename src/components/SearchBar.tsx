@@ -301,7 +301,13 @@ const SearchBar: React.FC<Props> = ({
         onClick={handleResultClick}
       />
       {/* The content, e.g. a fake search bar. */}
-      <div className="cursor-pointer" onClick={() => setShown(true)}>
+      <div
+        className="cursor-pointer"
+        onClick={(e) => {
+          e.preventDefault();
+          setShown(true);
+        }}
+      >
         {children}
       </div>
     </>
