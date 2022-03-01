@@ -127,9 +127,9 @@ const SearchModal: React.FC<{
                 stroke="currentColor"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
                   d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
                 />
               </svg>
@@ -192,9 +192,9 @@ const SearchModal: React.FC<{
                       stroke="currentColor"
                     >
                       <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
                         d="M9 5l7 7-7 7"
                       />
                     </svg>
@@ -213,10 +213,9 @@ const SearchModal: React.FC<{
 type Props = {
   apiKey: string;
   setId: string;
+  children: React.ReactNode;
   feedback?: boolean;
   placeholderText?: string;
-  classNames?: string;
-  style?: React.CSSProperties;
   keyboardShortcuts?: string[];
 };
 
@@ -227,11 +226,9 @@ type Props = {
 const SearchBar: React.FC<Props> = ({
   apiKey,
   setId,
+  children,
   feedback,
   placeholderText,
-  classNames,
-  style,
-  keyboardShortcuts,
 }) => {
   // Controls whether the search modal is shown.
   const [shown, setShown] = React.useState(false);
@@ -293,17 +290,6 @@ const SearchBar: React.FC<Props> = ({
     }
   };
 
-  // Handles any keyboard shortcuts configured by the caller.
-  const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (keyboardShortcuts && !shown) {
-      const shortcut = keyboardShortcuts.find((s) => s === e.key);
-      if (shortcut) {
-        setShown(true);
-        e.preventDefault();
-      }
-    }
-  };
-
   return (
     <>
       {/* The modal. */}
@@ -314,48 +300,9 @@ const SearchBar: React.FC<Props> = ({
         doSearch={doSearch}
         onClick={handleResultClick}
       />
-      {/* A fake search bar, used to toggle the modal. */}
-      <div className={`${classNames ?? ''}`} style={style}>
-        <div
-          className="max-w-md rounded-lg shadow-lg overflow-hidden bg-white cursor-pointer border-gray-200"
-          onClick={() => setShown(true)}
-          onKeyDown={onKeyDown}
-        >
-          <div className="flex items-center justify-between">
-            <div className="flex-shrink-0">
-              <span className="inline-flex items-center px-3 py-2 rounded-md text-gray-500 font-medium bg-white border border-gray-400 leading-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                  />
-                </svg>
-              </span>
-            </div>
-            <div className="hidden sm:block flex-grow">
-              <h3 className="text-md leading-6 font-medium text-gray-900">
-                {placeholderText ?? 'Search for something...'}
-              </h3>
-            </div>
-            {keyboardShortcuts && keyboardShortcuts.length > 0 && (
-              <div className="hidden sm:block flex flex-col justify-center items-center mr-3">
-                <div className="h-6 w-6 rounded-full bg-gray-100 border-2 border-gray-200 text-center inline-flex items-center justify-center">
-                  <p className="font-bold">
-                    {keyboardShortcuts[0].toUpperCase()}
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+      {/* The content, e.g. a fake search bar. */}
+      <div className="cursor-pointer" onClick={() => setShown(true)}>
+        {children}
       </div>
     </>
   );
