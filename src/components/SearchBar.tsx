@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Dialog } from '@headlessui/react';
+import { useHotkeys } from 'react-hotkeys-hook';
 
 // SearchResult is a single search result.
 type SearchResult = {
@@ -111,14 +112,15 @@ const SearchModal: React.FC<{
       open={shown}
       onClose={onClose}
       className="fixed z-10 inset-0 overflow-y-auto"
+      initialFocus={searchInputRef}
       onKeyDown={handleKeyDown}
     >
-      <div className="flex items-center justify-center min-h-screen">
+      <div className="flex items-start md:items-center justify-center min-h-screen">
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
-        <div className="relative bg-white rounded-lg mx-auto py-2 shadow-xl overflow-hidden sm:align-middle sm:max-w-lg sm:w-full sm:py-6">
+        <div className="relative bg-white rounded-b-lg md:rounded-lg w-screen py-4 shadow-xl overflow-hidden sm:align-middle md:max-w-lg md:w-full sm:py-6">
           {/* Search Bar */}
           <div className="flex items-center justify-center px-2 sm:px-6">
-            <div className="flex-shrink-0">
+            <div className="flex flex-col justify-center flex-shrink-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-6 w-6"
@@ -134,7 +136,7 @@ const SearchModal: React.FC<{
                 />
               </svg>
             </div>
-            <div className="ml-3 w-0 flex-1">
+            <div className="flex ml-2 flex-col justify-center flex-1">
               <input
                 className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 placeholder-gray-600 rounded-none leading-tight focus:outline-none text-lg"
                 type="text"
@@ -150,7 +152,7 @@ const SearchModal: React.FC<{
           {/* This is a fixed-height box. */}
           {activeResponse && (
             <div
-              className="mt-2 sm:mt-6 flex-1 overflow-y-auto max-h-96 scrollbar-hide max-w-full divide-y divide-gray-200"
+              className="mt-2 sm:mt-6 flex-1 overflow-y-auto max-h-screen scrollbar-hide max-w-full divide-y divide-gray-200"
               ref={searchResultsRef}
             >
               {activeResponse.results.map((result, i) => (
@@ -212,11 +214,11 @@ const SearchModal: React.FC<{
 // Props for the SearchBar component.
 type Props = {
   apiKey: string;
-  setId: string;
+  setIDs: string[];
   children: React.ReactNode;
   feedback?: boolean;
   placeholderText?: string;
-  keyboardShortcuts?: string[];
+  keyboardShortcut?: string;
 };
 
 /**
@@ -225,14 +227,20 @@ type Props = {
  */
 const SearchBar: React.FC<Props> = ({
   apiKey,
-  setId,
+  setIDs,
   children,
   feedback,
   placeholderText,
+  keyboardShortcut,
 }) => {
   // Controls whether the search modal is shown.
   const [shown, setShown] = React.useState(false);
-
+  // Sets keyboard shortcut hook
+  if (keyboardShortcut) {
+    useHotkeys(keyboardShortcut, () => {
+      setShown(true);
+    });
+  }
   // Executes a search.
   const doSearch = async (query: string) => {
     const response = await fetch('https://api.operand.ai/v1/search', {
@@ -242,7 +250,7 @@ const SearchBar: React.FC<Props> = ({
         Authorization: apiKey,
       },
       body: JSON.stringify({
-        sets: [setId],
+        sets: setIDs,
         query: query,
         options: {
           filter: '',
