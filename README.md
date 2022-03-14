@@ -66,11 +66,11 @@ For your child we recommend rendering a fake search bar or just a search icon. I
 </SearchBar>
 ```
 
-| Name             | Type    | Purpose                                                                                    |
-| ---------------- | ------- | ------------------------------------------------------------------------------------------ |
-| placeholderText  | string  | Customize the input bar in the modal                                                       |
-| feedback         | boolean | Sends us anonymous feedback about what results were clicked and helps improve your search. |
-| keyboardShortcut | string  | Uses the react-hotkeys-hook package. See this section for how to define a shortcut.        |
+| Name             | Type    | Purpose                                                                                                                                          |
+| ---------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| placeholderText  | string  | Customize the input bar in the modal                                                                                                             |
+| feedback         | boolean | Sends us anonymous feedback about what results were clicked and helps improve your search.                                                       |
+| keyboardShortcut | string  | Uses the react-hotkeys-hook package. See [this section](https://github.com/jaywcjlove/hotkeys/#defining-shortcuts) for how to define a shortcut. |
 
 For the keyboardShortcut an example is “ctrl+k”.
 
