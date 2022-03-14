@@ -90,7 +90,7 @@ import 'operand-js/dist/tailwind.css';
 
 Projects with tailwind must simply include the node-module in the contents section of ‘tailwind.config.js’.
 
-```json
+```jsx
 module.exports = {
   content: [
 		....
