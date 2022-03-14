@@ -115,7 +115,7 @@ const SearchModal: React.FC<{
       initialFocus={searchInputRef}
       onKeyDown={handleKeyDown}
     >
-      <div className="flex items-start md:items-center justify-center min-h-screen">
+      <div className="flex items-start md:pt-20 justify-center min-h-screen">
         <Dialog.Overlay className="fixed inset-0 bg-black opacity-30" />
         <div className="relative bg-white rounded-b-lg md:rounded-lg w-screen py-4 shadow-xl overflow-hidden sm:align-middle md:max-w-lg md:w-full sm:py-6">
           {/* Search Bar */}
