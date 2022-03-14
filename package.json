@@ -12,15 +12,14 @@
   },
   "scripts": {
     "start": "tsdx watch",
-    "build": "tsdx build && npm run build-tailwind",
+    "build": "tsdx build",
     "test": "tsdx test --passWithNoTests",
     "lint": "tsdx lint",
     "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
-    "build-tailwind": "NODE_ENV=production npx tailwindcss -o ./dist/tailwind.css --minify"
+    "build-storybook": "build-storybook"
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0",
